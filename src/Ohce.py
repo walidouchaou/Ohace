@@ -2,11 +2,15 @@
 
 
 class Ohce:
-    def __init__(self,maniere_de_dire_bonjour):
-        self.maniere_de_dire_bonjour = maniere_de_dire_bonjour
+    def __init__(self,langue,periode_journee):
+        self.__langue = langue
+        self.__periode_journee = periode_journee
+
+
+
     def palindrome(self,palindrome):
         miroir = palindrome[::-1]
-        return self.maniere_de_dire_bonjour.dire_bonjour()\
+        return self.__langue.dire_bonjour(self.__periode_journee)\
                +miroir\
-        + ("bien dit" if miroir==palindrome else "")\
+        + ("Bien dit" if miroir==palindrome  else "")\
         +"Au revoir "
