@@ -12,4 +12,3 @@ class LangueFrancaise:
 
     def bien_dit(self):
         return Constantes.Francais.BIEN_DIT
-

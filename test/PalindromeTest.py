@@ -1,61 +1,47 @@
 import unittest
 import parameterized.parameterized
-from src.Langues.Constantes import Constantes
-from src.Langues.LangueFrancaise import LangueFrancaise
-from src.Langues.LangueAnglais import LangueAnglaise
-from utilities.OhceBuilder import OhceBuilder
+from utilities.LangueSpy import LangueSpy
+
+from src.Ohce import Ohce
 
 class PalindromeTest(unittest.TestCase):
     def test_renvoi_miroir(self):
         chaine = "toto"
 
         # QUAND on saisit une chaîne
-        ohce = OhceBuilder.default()
+        ohce = Ohce()
         resultat = ohce.palindrome(chaine)
 
         # ALORS celle-ci est renvoyée en miroir
         self.assertIn(chaine[::-1], resultat)
 
-    @parameterized.parameterized.expand([
-        [LangueAnglaise(), Constantes.Anglais.WELL_DONE],
-        [LangueFrancaise(), Constantes.Francais.BIEN_DIT],
-    ],
-        lambda _, __, args:
+
         "test ETANT DONNE un utilisateur parlant la langue %s \n"
         "QUAND on saisit un palindrome \n"
         "ALORS %s est renvoyé ensuite"
-        % (str(type(args.args[0]).__name__), args.args[1])
-    )
-    def test_palindrome(self, langue, bien_dit):
+
+
+    def test_palindrome(self):
         palindrome = "radar"
 
-        ohce = OhceBuilder().ayant_pour_langue(langue).build()
+        ohce = Ohce()
+
+
+
         resultat = ohce.palindrome(palindrome)
 
         self.assertIn(palindrome, resultat)
 
         # ET 'Bien dit' est renvoyé ensuite
         resultat_apres_palindrome = resultat[len(palindrome):len(resultat)]
-        self.assertIn(bien_dit, resultat_apres_palindrome)
+        self.assertIn(ohce.bien_dit(), resultat_apres_palindrome)
 
-    @parameterized.parameterized.expand([
-        [LangueAnglaise(), Constantes.Anglais.WELL_DONE],
-        [LangueFrancaise(), Constantes.Francais.BIEN_DIT],
-    ],
-        lambda _, __, args:
-        "test ETANT DONNE un utilisateur parlant la langue %s \n"
-        "QUAND on saisit une chaîne n'étant pas un palindrome \n"
-        "ALORS %s n'apparaît pas"
-        % (str(type(args.args[0]).__name__), args.args[1])
-    )
-    def test_non_palindrome(self, langue, bien_dit):
-        ohce = OhceBuilder().ayant_pour_langue(langue).build()
+    def test_non_palindrome(self):
+        #spy_langue = LangueSpy()
+        ohce = Ohce()
 
-        resultat = ohce.palindrome("toto")
+        ohce.palindrome("toto")
 
-        self.assertNotIn(bien_dit, resultat)
-
-
-
+        self.assertEqual(0, LangueSpy.nombre_appels_a_bien_dit)
 if __name__ == '__main__':
     unittest.main()

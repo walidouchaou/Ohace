@@ -1,16 +1,29 @@
-# This is a sample Python script.
-
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import locale
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from src.Langues.LangueAnglais import LangueAnglaise
+from src.Langues.LangueFrancaise import LangueFrancaise
+from src.Ohce import Ohce
+from src.PeriodeDeLaJournee import PeriodeDeLaJournee
 
 
-# Press the green button in the gutter to run the script.
+class SystemLangAdapter():
+    def __init__(self):
+        langue_systeme = locale.getdefaultlocale()[0]
+        self.__langue = LangueAnglaise() \
+            if langue_systeme == "en_GB" \
+            else LangueFrancaise()
+
+
+
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    ohce = Ohce(SystemLangAdapter(), PeriodeDeLaJournee.NUIT)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+while True:
+    user_input = input("> ")
+    if ohce.palindrome(user_input):
+        ohce.__bien_dit()
+    else:
+        print(user_input[::-1])

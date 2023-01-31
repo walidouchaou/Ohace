@@ -6,7 +6,7 @@ from utilities.LangueStub import LangueStub
 class OhceBuilder():
     def __init__(self):
         self.__langue = LangueStub()
-        self.__periode_journee = PeriodeDeLaJournee.DEFAULT
+        self.__periode_journee = PeriodeDeLaJournee
 
     def build(self):
         return Ohce(self.__langue, self.__periode_journee)
